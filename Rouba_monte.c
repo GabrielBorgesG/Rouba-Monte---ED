@@ -1,6 +1,12 @@
 //JOGO ROUBA-MONTE
 
 //BIBLIOTECAS
+
+#include "lista_enc_dupla.h"
+#include "pilha_enc.h"
+#include "lista_circ.h"
+#include "lista_enc.h"
+
 #include "raylib.h"
 #include <string.h>
 #include <stdlib.h>
@@ -40,8 +46,64 @@ void AmbientSound(Sound Ambiente){
 int main(void){
 
 //DEFINICOES
-    int a;
-   
+    int i;
+
+    // Monte (baralho)
+    PilhaEnc *baralho = criaPilhaEnc();
+
+    // Jogadores
+    int num_jog;
+
+    do{
+        printf("Quer jogar contra quantos jogadores? (Maximo 3 | Minimo 1)");
+        scanf("%d", &num_jog);
+    }while(num_jog > 3 || num_jog < 1);
+
+    Jogador Jogador;
+    Jogador.chave = 1;
+    Jogador.mao = criaListaEnc2();
+    Jogador.monte = criaPilhaEnc();
+
+    if(num_jog == 1){
+        Jogador adversario1;
+
+        adversario1.chave = 2;
+        adversario1.mao = criaListaCircEnc();
+        adversario1.monte = criaPilhaEnc();
+    }else if(num_jog == 2){
+        Jogador adversario1, adversario2;
+
+        adversario1.chave = 2;
+        adversario1.mao = criaListaCircEnc();
+        adversario1.monte = criaPilhaEnc();
+
+        adversario2.chave = 3;
+        adversario2.mao = criaListaCircEnc();
+        adversario2.monte = criaPilhaEnc();
+    }else{
+        Jogador adversario1, adversario2, adversario3;
+
+        adversario1.chave = 2;
+        adversario1.mao = criaListaCircEnc();
+        adversario1.monte = criaPilhaEnc();
+
+        adversario2.chave = 3;
+        adversario2.mao = criaListaCircEnc();
+        adversario2.monte = criaPilhaEnc();
+
+        adversario3.chave = 4;
+        adversario3.mao = criaListaCircEnc();
+        adversario3.monte = criaPilhaEnc();
+    }
+
+    //Ordenamento da partida
+    ListaCircEnc *ordem = criaListaCircEnc();
+
+    for(i = 0; i <= num_jog; i++){
+        insereInicioListaCircEnc(ordem, adversario1);
+    }
+    insereInicioListaCircEnc(ordem, Jogador);
+
 //INICIALIZACOES
     SetupWindow();
 

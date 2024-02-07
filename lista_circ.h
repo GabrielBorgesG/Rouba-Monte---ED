@@ -1,6 +1,9 @@
 #ifndef _LISTA_CIRC_H_
 #define _LISTA_CIRC_H_
 
+#include "pilha_enc.h"
+#include "lista_enc_dupla.h"
+
 typedef struct{
     int chave;
     PilhaEnc monte;

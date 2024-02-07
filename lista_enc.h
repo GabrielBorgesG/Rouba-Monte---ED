@@ -1,13 +1,10 @@
 #ifndef _LISTA_ENC_H_
 #define _LISTA_ENC_H_
 
-#define TAM_MAX_NOME 7
-// Como os naipes são copas, paus, espadas e ouros, então a maior palavra é ESPADAS (7)
-
-typedef struct{
-   int numero;
-   char naipe[TAM_MAX_NOME];
-} Carta;
+typedef struct carta{
+    int num; // 1 a 13
+    int naipe; // 1 a 4
+}Carta;
 
 typedef Carta Info;
 

@@ -8,9 +8,7 @@ typedef struct{
    int chave;
    char nome[TAM_MAX_NOME];
    char email[TAM_MAX_EMAIL];
-} Aluno;
-
-typedef Aluno Info;
+}Info;
 
 typedef struct nodoLEnc2{
    Info info;

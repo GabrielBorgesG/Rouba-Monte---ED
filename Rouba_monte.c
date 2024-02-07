@@ -17,12 +17,19 @@
 #define FPS 8
 #define LARGURA 880
 #define ALTURA (520+(FONTE*6))
-#define VEL 20
 #define ARESTA_BLOCO 20
 #define NUM_BLOC_LARGURA_MAPA 44
 #define NUM_BLOC_ALTURA_MAPA 26
 #define FONTE 20 //Fonte da letra
 #define VOLUME 0.2 //Vai de 0.0 a 1.0
+#define NUMEROS_DE_CARTAS 13
+#define NUMEROS_DE_NAIPES 4
+#define ESPADAS 1
+#define PAUS 2
+#define COPAS 3
+#define OUROS 4
+
+// ESTRUTURAS
 
 // FUNCOES
 
@@ -46,10 +53,19 @@ void AmbientSound(Sound Ambiente){
 int main(void){
 
 //DEFINICOES
-    int i;
+    int i, j;
 
-    // Monte (baralho)
+    // Gerador de cartas de baralho
     PilhaEnc *baralho = criaPilhaEnc();
+
+    for(i = 1; i <= NUMEROS_DE_CARTAS; i++){
+        for(j = 1; j <= NUMEROS_DE_NAIPES; j++){
+            Carta carta;
+            carta.num = i;
+            carta.naipe = j;
+            empilhaPilhaEnc(baralho, carta);
+        }
+    }
 
     // Jogadores
     int num_jog;
@@ -59,57 +75,24 @@ int main(void){
         scanf("%d", &num_jog);
     }while(num_jog > 3 || num_jog < 1);
 
-    Jogador Jogador;
-    Jogador.chave = 1;
-    Jogador.mao = criaListaEnc2();
-    Jogador.monte = criaPilhaEnc();
-
-    if(num_jog == 1){
-        Jogador adversario1;
-
-        adversario1.chave = 2;
-        adversario1.mao = criaListaCircEnc();
-        adversario1.monte = criaPilhaEnc();
-    }else if(num_jog == 2){
-        Jogador adversario1, adversario2;
-
-        adversario1.chave = 2;
-        adversario1.mao = criaListaCircEnc();
-        adversario1.monte = criaPilhaEnc();
-
-        adversario2.chave = 3;
-        adversario2.mao = criaListaCircEnc();
-        adversario2.monte = criaPilhaEnc();
-    }else{
-        Jogador adversario1, adversario2, adversario3;
-
-        adversario1.chave = 2;
-        adversario1.mao = criaListaCircEnc();
-        adversario1.monte = criaPilhaEnc();
-
-        adversario2.chave = 3;
-        adversario2.mao = criaListaCircEnc();
-        adversario2.monte = criaPilhaEnc();
-
-        adversario3.chave = 4;
-        adversario3.mao = criaListaCircEnc();
-        adversario3.monte = criaPilhaEnc();
-    }
-
     //Ordenamento da partida
     ListaCircEnc *ordem = criaListaCircEnc();
 
+    // O jogador será representado pela chave 0 (zero)
     for(i = 0; i <= num_jog; i++){
-        insereInicioListaCircEnc(ordem, adversario1);
+        Jogador aux;
+        aux.chave = i;
+        aux.mao = criaListaEnc2();
+        aux.monte = criaPilhaEnc();
+        insereInicioListaCircEnc(ordem, aux);
     }
-    insereInicioListaCircEnc(ordem, Jogador);
 
 //INICIALIZACOES
     SetupWindow();
 
 //CARREGAMENTO DA MUSICA DE FUNDO
     Music Ambiente;
-    Ambiente = LoadMusicStream("./Som/fundo.mp3");
+    Ambiente = LoadMusicStream("./fundo.mp3");
     PlayMusicStream(Ambiente);
     SetMusicVolume(Ambiente, VOLUME);
 
@@ -158,11 +141,11 @@ int main(void){
         }
 
         EndDrawing();
-     }
-     UnloadMusicStream(Ambiente);
-     UnloadTexture(a);
+    }
+    UnloadMusicStream(Ambiente);
+    UnloadTexture(a);
 
-     CloseAudioDevice();
-     CloseWindow();
-     return 0;
+    CloseAudioDevice();
+    CloseWindow();
+    return 0;
 }

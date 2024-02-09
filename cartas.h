@@ -2,10 +2,10 @@
 #define _CARTAS_H_
 
 typedef enum {
-    C,
-    E,
-    O,
-    P
+    C,  //=0
+    E,  //=1
+    O,  //=2
+    P  //=3
 } Naipe;
 
 typedef enum {
@@ -20,8 +20,8 @@ typedef enum {
     NOVE,
     DEZ,
     VALETE = 11,
-    DAMA,
-    REI
+    DAMA = 12,
+    REI = 13
 } Valor;
 
 typedef struct carta{
@@ -30,15 +30,30 @@ typedef struct carta{
     struct carta *prox;
 } Carta;
 
+typedef Carta Info;
+
+typedef struct nodoLEnc{
+   Info info;
+   struct nodoLEnc *prox;
+} NodoLEnc;
+
 typedef struct pilha{
-   Carta *topo;
+   NodoLEnc *topo;
 } Pilha;
 
 Pilha* criaBaralho();
 
-void empilhaCarta(Pilha *monte, Carta *carta);
+void empilhaCarta(Pilha *monte, Info info);
 
-void embaralhaCartas(Pilha *baralho);
+int vaziaPilha(Pilha *pilha);
+
+Info desempilhaCarta(Pilha *monte);
+
+void swap(Carta *a, Carta *b);
+
+void embaralhaCartas(Carta baralho[], int totalCartas);
+
+void criarBaralhoEstatico(Carta baralho[52]);
 
 void imprimeBaralho(Pilha *baralho);
 

@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 //DEFINICOES
-#define FPS 8
+#define FPS 7
 #define LARGURA 880
 #define ALTURA (520+(FONTE*6))
 #define ARESTA_BLOCO 20

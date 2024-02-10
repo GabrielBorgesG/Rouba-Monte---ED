@@ -1,4 +1,11 @@
-//JOGO ROUBA-MONTE
+/* JOGO ROUBA-MONTE
+
+Requisitos Basicos:
+    O monte de cartas (baralho) deve ser representado por uma pilha.
+    A ordenacao das jogadas deve ser representada por uma lista circular.
+    Cada monte deve ser representado por uma pilha.
+    As cartas de cada jogador devem ser representada por uma lista (simples ou dupla).
+*/
 
 //BIBLIOTECAS
 
@@ -6,6 +13,7 @@
 #include "pilha_enc.h"
 #include "lista_circ.h"
 #include "lista_enc.h"
+#include "cartas.h"
 
 #include "raylib.h"
 #include <string.h>
@@ -28,6 +36,7 @@
 #define PAUS 2
 #define COPAS 3
 #define OUROS 4
+#define NUM_CARTAS_POR_JOGADOR 4
 
 // ESTRUTURAS
 
@@ -39,6 +48,24 @@ void SetupWindow(){
     HideCursor();
     InitAudioDevice();
     //ToggleFullscreen();
+}
+
+//Função que conta o número de cartas do jogador
+int quantasCartas(ListaCircEnc* ordem, int chave_jogador){
+    //IMPLEMENTAR AINDA
+}
+
+// Esta função vai avaliar as cartas do jogador específico e comparar todas as suas cartas com as cartas da mesa
+// e as cartas do topo das pilhas dos outros jogadores. Se houver correspondência de NÚMERO, as cartas saem da MESA
+// e da MAO do jogador e vão para o monte do jogador
+void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int num_cartas_na_mesa, int chave_jogador){
+    int quantas_cartas = quantasCartas(ordem, chave_jogador);
+    for(i = 0, i < num_cartas_na_mesa; i++){
+        for(j = 0, j < num_cartas_do_jogador; j++){
+            if(){
+            }
+        }
+    }
 }
 
 //SOM
@@ -53,11 +80,11 @@ void AmbientSound(Sound Ambiente){
 int main(void){
 
 //DEFINICOES
-    int i, j;
+    int i, j, num_cartas_na_mesa = 0;
 
+    /* Bloco obsoleto com cartas.h implementado pelo Pedro
     // Gerador de cartas de baralho
     PilhaEnc *baralho = criaPilhaEnc();
-
     for(i = 1; i <= NUMEROS_DE_CARTAS; i++){
         for(j = 1; j <= NUMEROS_DE_NAIPES; j++){
             Carta carta;
@@ -66,10 +93,12 @@ int main(void){
             empilhaPilhaEnc(baralho, carta);
         }
     }
+    */
 
     // Jogadores
     int num_jog;
 
+    // Laço de consistência
     do{
         printf("Quer jogar contra quantos jogadores? (Maximo 3 | Minimo 1)");
         scanf("%d", &num_jog);
@@ -87,6 +116,29 @@ int main(void){
         insereInicioListaCircEnc(ordem, aux);
     }
 
+    // Utilizando o código do Pedro:
+    PilhaEnc *baralho = criaBaralho();
+
+    // Entrega as cartas
+    int verifica;
+    NodoLEnc *aux_circ = ordem->prim;
+
+    for(i = 0; i <= num_jog; i++){
+        for(j = 0; j < NUM_CARTAS_POR_JOGADOR; j++){
+            // Pega a carta do topo do baralho (pilha) e insere no início da mão (deque) do jogador na ordem de jogada (lista circular)
+            verifica = insereInicioListaEnc2(aux_circ->info.mao, desempilhaCarta(baralho));
+        }
+    }
+    // Neste ponto, todos os jogadores tem 4 cartas em suas mãos (deques) e nenhuma carta em seus montes (pilhas)
+
+    // Colocar cartas na mesa
+    ListaEnc2 *mesa = criaListaEnc2();
+    for(i = 0; i < 4; i++){
+        verifica = insereInicioListaEnc2(mesa, desempilhaCarta(baralho));
+        num_cartas_na_mesa++;
+    }
+
+    
 //INICIALIZACOES
     SetupWindow();
 
@@ -100,7 +152,7 @@ int main(void){
     Texture2D a = LoadTexture("./Texturas/a.png");
 
 //LACO PRINCIPAL DO JOGO
-    while (!WindowShouldClose()){
+    while (!WindowShouldClose() && !vaziaPilhaEnc(baralho){
 
 //MUSICA DE FUNDO
         UpdateMusicStream(Ambiente);
@@ -116,6 +168,20 @@ int main(void){
         Jogador_Vec.x = posX;
         Jogador_Vec.y = posY;
 
+//RODADAS
+        //IMPLEMENTAR JOGADA DO JOGADOR
+        //As cartas na mesa são tais: 1 2 4 8 13
+        //As cartas dos montes são tais: 3 9
+        //As suas cartas são tais: 2 9 12 6
+        //Qual carta deseja jogar? X
+        //X é numero valido? (esta entre as cartas do jogador?)
+        //Modifica as estruturas necessarias para a jogada
+        
+        // Faz as jogadas dos demais jogadores
+        for(i = 1; i < num_jog; i++){
+            rodada(ordem, mesa, num_cartas_na_mesa, i);
+        }
+        
 //----------------------------------------------------------------------------------
 //ATUALIZA A REPRESENTACAO VISUAL DO JOGO
 //----------------------------------------------------------------------------------

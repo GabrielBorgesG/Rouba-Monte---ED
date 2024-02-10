@@ -1,13 +1,32 @@
 #ifndef _LISTA_ENC_DUPLA_H_
 #define _LISTA_ENC_DUPLA_H_
 
-#define TAM_MAX_NOME 40
-#define TAM_MAX_EMAIL 25
+typedef enum {
+    C,  //=0
+    E,  //=1
+    O,  //=2
+    P  //=3
+}Naipe;
+
+typedef enum {
+    AS = 1,
+    DOIS,
+    TRES,
+    QUATRO,
+    CINCO,
+    SEIS,
+    SETE,
+    OITO,
+    NOVE,
+    DEZ,
+    VALETE = 11,
+    DAMA = 12,
+    REI = 13
+}Valor;
 
 typedef struct{
-   int chave;
-   char nome[TAM_MAX_NOME];
-   char email[TAM_MAX_EMAIL];
+    Valor valor;
+    Naipe naipe;
 }Info;
 
 typedef struct nodoLEnc2{

@@ -1,9 +1,32 @@
 #ifndef _LISTA_ENC_H_
 #define _LISTA_ENC_H_
 
+typedef enum {
+    C,  //=0
+    E,  //=1
+    O,  //=2
+    P  //=3
+}Naipe;
+
+typedef enum {
+    AS = 1,
+    DOIS,
+    TRES,
+    QUATRO,
+    CINCO,
+    SEIS,
+    SETE,
+    OITO,
+    NOVE,
+    DEZ,
+    VALETE = 11,
+    DAMA = 12,
+    REI = 13
+}Valor;
+
 typedef struct carta{
-    int num; // 1 a 13
-    int naipe; // 1 a 4
+    Valor valor;
+    Naipe naipe;
 }Carta;
 
 typedef Carta Info;

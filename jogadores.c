@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 void insereJogador(OrdemJogadas* ordenacao, Jogador* jogador){
      NodoLEnc* aux;
      NodoLEnc* novo = (NodoLEnc*)malloc(sizeof(NodoLEnc));
@@ -41,11 +42,27 @@ OrdemJogadas* criaOrdemJogadas(Pilha* baralho, int nJogadores){
         Jogador* jogador = (Jogador*)malloc(sizeof(Jogador));
         jogador->id = id;
         jogador->mao = criaMao(baralho);
-        //jogador.monte = criaMonte(baralho);
+        jogador->monte = criaPilha();
         insereJogador(ordenacao, jogador);
    }
 
    return ordenacao;
+}
+
+void pegaMesa(Jogador *j, ListaEnc2 *mesa, int posMao, int posMesa){
+
+     Carta cartaMao, cartaMesa;
+
+     
+
+     cartaMao = removeCartaListaEnc2(j->mao, posMao);
+     cartaMesa = removeCartaListaEnc2(mesa, posMesa);
+
+     if(cartaMao.valor == cartaMesa.valor){
+          empilhaCarta(j->monte, cartaMao);
+          empilhaCarta(j->monte, cartaMesa);
+     }
+
 }
 
 void imprimeJogadores(OrdemJogadas* ordenacao){

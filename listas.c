@@ -27,8 +27,9 @@ void insereCartaListaEnc2(ListaEnc2* lista, Carta carta){
    lista->prim = novo;
 }
 
-void removeCartaListaEnc2(ListaEnc2* lista, int pos){
+Carta removeCartaListaEnc2(ListaEnc2* lista, int pos){
    NodoLEnc2 *aux = lista->prim; 
+   Carta info;
    for(int i = 0; i < pos; i++)
       aux = aux->prox;
 
@@ -42,8 +43,11 @@ void removeCartaListaEnc2(ListaEnc2* lista, int pos){
          if (aux->prox != NULL)
             aux->prox->ant = aux->ant;            
       }
+      info = aux->carta;
       free(aux);
    }
+
+   return info;
 }
 
 void imprimeListaEnc2(ListaEnc2* lista){

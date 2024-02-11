@@ -19,7 +19,7 @@ ListaEnc2* criaListaEnc2();
 
 void insereCartaListaEnc2(ListaEnc2* lista, Carta carta);
 
-void removeCartaListaEnc2(ListaEnc2* lista, int pos);
+Carta removeCartaListaEnc2(ListaEnc2* lista, int pos);
 
 void imprimeListaEnc2(ListaEnc2* lista);
 

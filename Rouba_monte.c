@@ -52,7 +52,24 @@ void SetupWindow(){
 
 //Função que conta o número de cartas do jogador
 int quantasCartas(ListaCircEnc* ordem, int chave_jogador){
-    //IMPLEMENTAR AINDA
+    int cont = 0;
+    NodoLEnc *b = ordem->prim;
+
+    // For que faz b apontar para o jogador desejado
+    for(; cont < chave_jogador; cont++){
+        b = b->prox;
+    }
+
+    // Agora que se tem o jogador desejado, c irá percorrer a mao (deque) do jogador
+    // Note que cont é reiniciado para ser reutilizado
+    cont = 0;
+    NodoLEnc2 *c = b->info.mao.prim;
+    while(c != NULL){
+        c = c->prox;
+        cont++;
+    }
+    
+    return cont;
 }
 
 // Esta função vai avaliar as cartas do jogador específico e comparar todas as suas cartas com as cartas da mesa
@@ -65,6 +82,39 @@ void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int num_cartas_na_mesa, int ch
             if(){
             }
         }
+    }
+}
+
+// Segunda versão da função (para ver se dá certo) -> reutilizando a funçao quantasCartas
+void rodada2(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
+    int cont = 0, i;
+    NodoLEnc *b = ordem->prim;
+
+    // For que faz b apontar para o jogador desejado
+    for(; cont < chave_jogador; cont++){
+        b = b->prox;
+    }
+
+    // Agora que se tem o jogador desejado, c irá percorrer a mao (deque) do jogador
+    NodoLEnc2 *c = b->info.mao.prim;
+    NodoLEnc2 *d = mesa->prim
+    int umaJogada = 0;
+    while(c != NULL && umaJogada == 0){
+        for(; d != NULL; d = d->prox){
+            if(c->info.valor == d->info.valor){ // Se encontrar cartas de mesmo valor entre mão e mesa
+
+                // Coloca na pilha do jogador
+                empilhaPilhaEnc(b->info.monte, c->info);
+                empilhaPilhaEnc(b->info.monte, d->info);
+
+                // Remove da mesa e da mão
+                removeInfoListaEnc2(c, c->info.valor);
+                removeInfoListaEnc2(d, c->info.valor);
+                umaJogada = 1;
+            }
+        }
+        c = c->prox;
+        d = mesa->prim;
     }
 }
 

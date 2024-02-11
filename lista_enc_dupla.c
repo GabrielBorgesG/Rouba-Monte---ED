@@ -56,9 +56,9 @@ int insereInicioListaEnc2(ListaEnc2 *lista, Info info){
 }
 
 // Funcao que remove um nodo com uma informacao de uma lista
-int removeInfoListaEnc2(ListaEnc2* lista, int chave){
+int removeInfoListaEnc2(ListaEnc2* lista, int valor){
    NodoLEnc2 *aux = lista->prim; 
-   while(aux != NULL && aux->info.chave != chave){
+   while(aux != NULL && aux->info.valor != chave){
       aux = aux->prox;
    }
    if (aux != NULL){

@@ -33,7 +33,7 @@ ListaCircEnc* criaListaCircEnc();
 
 OrdemJogadas* criaOrdemJogadas(Pilha* baralho, int nJogadores);
 
-void pegaMesa(Jogador *j, ListaEnc2 *mesa, int posMao);
+void pegaMesa(Jogador *j, ListaEnc2 *mesa, int posMao, int posMesa);
 
 void roubaMonte();
 

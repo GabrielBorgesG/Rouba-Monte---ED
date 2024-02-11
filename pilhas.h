@@ -22,4 +22,6 @@ int vaziaPilha(Pilha *pilha);
 
 void imprimePilha(Pilha *pilha);
 
+int vaziaPilha(Pilha *pilha);
+
 #endif

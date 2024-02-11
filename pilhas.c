@@ -42,3 +42,7 @@ void imprimePilha(Pilha *pilha) {
         aux = aux->prox; // Avança para o próximo nó
     }
 }
+
+int vaziaPilha(Pilha *pilha){
+    return (pilha->topo == NULL);
+}

@@ -49,20 +49,50 @@ OrdemJogadas* criaOrdemJogadas(Pilha* baralho, int nJogadores){
    return ordenacao;
 }
 
-void pegaMesa(Jogador *j, ListaEnc2 *mesa, int posMao, int posMesa){
+void pegaMesa(Jogador *j, ListaEnc2 *mesa, int posMao){
 
-     Carta cartaMao, cartaMesa;
-
-     
-
-     cartaMao = removeCartaListaEnc2(j->mao, posMao);
-     cartaMesa = removeCartaListaEnc2(mesa, posMesa);
-
-     if(cartaMao.valor == cartaMesa.valor){
-          empilhaCarta(j->monte, cartaMao);
-          empilhaCarta(j->monte, cartaMesa);
+     Carta cartaMao = removeCartaListaEnc2(j->mao, posMao);
+     NodoLEnc2* atualMesa = mesa->prim;
+     int posMesa = 0; // Índice da carta na mesa
+     while (atualMesa != NULL) {
+          if (cartaMao.valor == atualMesa->carta.valor) {
+               // Remover carta da mesa
+               Carta cartaMesa = removeCartaListaEnc2(mesa, posMesa);
+               // Adicionar ambas as cartas à pilha do jogador
+               empilhaCarta(j->monte, cartaMao);
+               empilhaCarta(j->monte, cartaMesa);
+               break;
+          }
+          atualMesa = atualMesa->prox;
+          posMesa++;
      }
 
+     //Caso cartas iguais não sejam encontradas a carta volta pra mão do jogador
+     insereCartaListaEnc2(j->mao, cartaMao);
+}
+
+void roubaMonte(Jogador *j1, Jogador *j2){
+
+     //J1 = jogador ladrao
+     //J2 = jogador roubado
+     if(j1->monte->topo->carta.valor == j2->monte->topo->carta.valor){
+          //Salvando os topos das pilhas
+          Carta cartaj1 = desempilhaCarta(j1->monte);
+          Carta cartaj2 = desempilhaCarta(j2->monte);
+          //Estrutura auxiliar
+          Carta carta;
+          while (!vaziaPilha(j2->monte)){
+               //Retirar a carta do monte do adversário
+               carta = desempilhaCarta(j2->monte);
+               //Adicionar a carta ao próprio monte
+               empilhaCarta(j1->monte, carta);
+          }
+
+          //Colocando os topos novamente
+          empilhaCarta(j1->monte, cartaj1);
+          empilhaCarta(j1->monte, cartaj2);
+
+     }
 }
 
 void imprimeJogadores(OrdemJogadas* ordenacao){

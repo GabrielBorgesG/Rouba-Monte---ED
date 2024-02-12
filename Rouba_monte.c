@@ -72,21 +72,8 @@ int quantasCartas(ListaCircEnc* ordem, int chave_jogador){
     return cont;
 }
 
-// Esta função vai avaliar as cartas do jogador específico e comparar todas as suas cartas com as cartas da mesa
-// e as cartas do topo das pilhas dos outros jogadores. Se houver correspondência de NÚMERO, as cartas saem da MESA
-// e da MAO do jogador e vão para o monte do jogador
-void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int num_cartas_na_mesa, int chave_jogador){
-    int quantas_cartas = quantasCartas(ordem, chave_jogador);
-    for(i = 0, i < num_cartas_na_mesa; i++){
-        for(j = 0, j < num_cartas_do_jogador; j++){
-            if(){
-            }
-        }
-    }
-}
-
 // Segunda versão da função (para ver se dá certo) -> reutilizando a funçao quantasCartas
-void rodada2(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
+void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
     int cont = 0, i;
     NodoLEnc *b = ordem->prim;
 
@@ -108,13 +95,19 @@ void rodada2(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
                 empilhaPilhaEnc(b->info.monte, d->info);
 
                 // Remove da mesa e da mão
-                removeInfoListaEnc2(c, c->info.valor);
-                removeInfoListaEnc2(d, c->info.valor);
+                removeInfoListaEnc2(b->info.mao, c->info.valor);
+                removeInfoListaEnc2(mesa, d->info.valor);
                 umaJogada = 1;
             }
         }
         c = c->prox;
         d = mesa->prim;
+    }
+
+    // Se não houver carta, o jogador joga uma para a mesa
+    if(umaJogada == 0){
+        insereInicioListaEnc2(mesa, b->info.mao.prim);
+        removeInfoListaEnc2(b->info.mao, b->info.mao.prim.info.valor);
     }
 }
 

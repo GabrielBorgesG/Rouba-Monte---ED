@@ -213,15 +213,47 @@ int main(void){
 
 //RODADAS
         //IMPLEMENTAR JOGADA DO JOGADOR
-        //As cartas na mesa são tais: 1 2 4 8 13
-        //As cartas dos montes são tais: 3 9
-        //As suas cartas são tais: 2 9 12 6
-        //Qual carta deseja jogar? X
         //X é numero valido? (esta entre as cartas do jogador?)
         //Modifica as estruturas necessarias para a jogada
         
+        NodoLEnc2 *cartas_mesa = mesa->prim;
+        NodoLEnc2 *cartas_mao = ordem->prim.info.mao.prim; // Pega a mão do primeiro jogador (chave  = 0), que no caso é o usuário
+        //NodoLEnc2 *cartas_mao = ordem->prim.jogador.mao.prim; // Na nova estrutura
+        NodoLEnc *players = ordem->prim.prox;
+
+        // Mostra as cartas da mesa para o jogador
+        printf("As cartas da mesa são: ");
+        // imprimeListaEnc2(mesa);
+        for(; cartas_mesa != NULL; cartas_mesa = cartas_mesa->prox){
+            printf("%d - (%d)\n", cartas_mesa->info.valor, cartas_mesa->info.naipe);
+        }
+
+        //Mostra as cartas dos montes de cada adversário
+        i = 1;
+        Info topo_monte;
+        for(; players != ordem->prim; players = players->prox){
+            topo_monte = desempilhaPilhaEnc(players->info.monte);
+            empilhaPilhaEnc(players->info.monte, topo_monte);
+            printf("Monte do jogador %d: %d - (%d)\n", i, topo_monte.valor, topo_monte.naipe);
+        }
+
+        // Mostra as cartas da mão do jogador
+        printf("As cartas da sua mão são: ");
+        // imprimeListaEnc2(ordem->prim.info.mao);
+        for(; cartas_mao != NULL; cartas_mao = cartas_mao->prox){
+            printf("%d - (%d)\n", cartas_mao->info.valor, cartas_mao->info.naipe);
+        }
+
+        // Jogada do jogador
+        int carta_escolhida;
+        printf("Qual carta deseja jogar? (Digite apenas o valor)");
+        scanf("%d", &carta_escolhida);
+
+        removeInfoListaEnc2(ordem->prim.info.mao, carta_escolhida); // Modificar removeInfoListaEnc2
+        
         // Faz as jogadas dos demais jogadores
         for(i = 1; i < num_jog; i++){
+            printf("Jogada do jogador %d\n", i);
             rodada(ordem, mesa, num_cartas_na_mesa, i);
         }
         

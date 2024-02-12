@@ -78,13 +78,13 @@ void escolheCartaMao(Jogador* j, ListaEnc2 *mesa, int posMao){
           insereCartaListaEnc2(mesa, cartaMao);
 }
 
-/* void roubaMonte(Jogador *j1, Jogador *j2){
+void roubaMonte(Jogador *j1, Jogador *j2, int posMao){
 
      //J1 = jogador ladrao
+     Carta cartaj1 = removeCartaListaEnc2(j1->mao, posMao);
      //J2 = jogador roubado
-     if(j1->monte->topo->carta.valor == j2->monte->topo->carta.valor){
-          //Salvando os topos das pilhas
-          Carta cartaj1 = desempilhaCarta(j1->monte);
+     if(cartaj1.valor == j2->monte->topo->carta.valor){
+          //Salvando o topo da pilha
           Carta cartaj2 = desempilhaCarta(j2->monte);
           //Estrutura auxiliar
           Carta carta;
@@ -95,12 +95,16 @@ void escolheCartaMao(Jogador* j, ListaEnc2 *mesa, int posMao){
                empilhaCarta(j1->monte, carta);
           }
 
-          //Colocando os topos novamente
-          empilhaCarta(j1->monte, cartaj1);
+          //Colocando os topos
           empilhaCarta(j1->monte, cartaj2);
+          empilhaCarta(j1->monte, cartaj1);
 
      }
-} */
+     else{
+          //Caso das cartas não serem iguais
+          insereCartaListaEnc2(j1->mao, cartaj1);
+     }
+}
 
 void imprimeJogadores(OrdemJogadas* ordenacao){
      NodoLEnc* aux = ordenacao->prim;

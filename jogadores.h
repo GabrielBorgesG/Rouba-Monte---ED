@@ -33,9 +33,9 @@ ListaCircEnc* criaListaCircEnc();
 
 OrdemJogadas* criaOrdemJogadas(Pilha* baralho, int nJogadores);
 
-void pegaMesa(Jogador *j, ListaEnc2 *mesa, int posMao);
+void escolheCartaMao(Jogador *j, ListaEnc2 *mesa, int posMao);
 
-void roubaMonte(Jogador *j1, Jogador *j2);
+//void roubaMonte(Jogador *j1, Jogador *j2);
 
 void imprimeJogadores(OrdemJogadas* ordenacao);
 

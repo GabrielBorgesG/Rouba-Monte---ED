@@ -21,6 +21,8 @@ void insereCartaListaEnc2(ListaEnc2* lista, Carta carta);
 
 Carta removeCartaListaEnc2(ListaEnc2* lista, int pos);
 
+Carta buscaCartaListaEnc2(ListaEnc2* lista, int pos);
+
 void imprimeListaEnc2(ListaEnc2* lista);
 
 #endif

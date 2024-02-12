@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 void insereJogador(OrdemJogadas* ordenacao, Jogador* jogador){
      NodoLEnc* aux;
      NodoLEnc* novo = (NodoLEnc*)malloc(sizeof(NodoLEnc));
@@ -49,29 +48,37 @@ OrdemJogadas* criaOrdemJogadas(Pilha* baralho, int nJogadores){
    return ordenacao;
 }
 
-void pegaMesa(Jogador *j, ListaEnc2 *mesa, int posMao){
-
-     Carta cartaMao = removeCartaListaEnc2(j->mao, posMao);
+int pegaMesa(Jogador* j, ListaEnc2 *mesa, Carta cartaMao){
      NodoLEnc2* atualMesa = mesa->prim;
-     int posMesa = 0; // Índice da carta na mesa
+     int posMesa = 1; // Índice da carta na mesa
      while (atualMesa != NULL) {
           if (cartaMao.valor == atualMesa->carta.valor) {
                // Remover carta da mesa
                Carta cartaMesa = removeCartaListaEnc2(mesa, posMesa);
                // Adicionar ambas as cartas à pilha do jogador
-               empilhaCarta(j->monte, cartaMao);
                empilhaCarta(j->monte, cartaMesa);
-               break;
+               empilhaCarta(j->monte, cartaMao);
+               return 1;
           }
           atualMesa = atualMesa->prox;
           posMesa++;
      }
-
-     //Caso cartas iguais não sejam encontradas a carta volta pra mão do jogador
-     insereCartaListaEnc2(j->mao, cartaMao);
+     return 0;
 }
 
-void roubaMonte(Jogador *j1, Jogador *j2){
+void escolheCartaMao(Jogador* j, ListaEnc2 *mesa, int posMao){
+     //Recupera carta da mao pela posicao escolhida
+     Carta cartaMao = removeCartaListaEnc2(j->mao, posMao);
+
+     //Tenta pegar a mesa com a carta escolhida
+     int retorno = pegaMesa(j, mesa, cartaMao);
+
+     //Caso nao consiga, a carta vai para a mesa
+     if(!retorno)
+          insereCartaListaEnc2(mesa, cartaMao);
+}
+
+/* void roubaMonte(Jogador *j1, Jogador *j2){
 
      //J1 = jogador ladrao
      //J2 = jogador roubado
@@ -93,17 +100,21 @@ void roubaMonte(Jogador *j1, Jogador *j2){
           empilhaCarta(j1->monte, cartaj2);
 
      }
-}
+} */
 
 void imprimeJogadores(OrdemJogadas* ordenacao){
      NodoLEnc* aux = ordenacao->prim;
      printf("-------------------------------\n");
-     if(ordenacao->prim != NULL)
+     if(ordenacao->prim != NULL){
           do{
                printf("ID: %d\n", aux->jogador->id);
-               aux = aux->prox;
+               printf("Mao: ");
                imprimeListaEnc2(aux->jogador->mao);
+               printf("Monte: ");
+               imprimePilha(aux->jogador->monte);
                printf("\n");
+               aux = aux->prox;
           }while (aux != ordenacao->prim);
+     }
      printf("-------------------------------\n");
 }

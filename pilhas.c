@@ -46,3 +46,13 @@ void imprimePilha(Pilha *pilha) {
 int vaziaPilha(Pilha *pilha){
     return (pilha->topo == NULL);
 }
+
+void destroiPilha(Pilha *pilha){
+   NodoPEnc *aux = pilha->topo;
+   while(aux != NULL){
+       NodoPEnc *tmp = aux->prox;
+       free(aux); // Cuidar ordem do free
+       aux = tmp;
+   }
+   free(pilha);
+}

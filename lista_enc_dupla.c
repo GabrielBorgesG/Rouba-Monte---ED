@@ -26,9 +26,8 @@ void imprimeListaEnc2(ListaEnc2 *lista){
    NodoLEnc2 *aux;
    printf("-----------------------------------------\n");
    for(aux = lista->prim; aux != NULL; aux = aux->prox)
-      printf("%d | %s (%s)\n", aux->info.chave,
-                               aux->info.nome,
-                               aux->info.email);
+      printf("%d | %d\n", aux->info.valor,
+                               aux->info.naipe);
    printf("-----------------------------------------\n");
 }
 

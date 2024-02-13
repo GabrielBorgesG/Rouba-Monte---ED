@@ -74,18 +74,29 @@ int quantasCartas(ListaCircEnc* ordem, int chave_jogador){
 
 // Segunda versão da função (para ver se dá certo) -> reutilizando a funçao quantasCartas
 void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
-    int cont = 0, i;
-    NodoLEnc *b = ordem->prim;
+    int cont = 0, i, umaJogada = 0;
+    NodoLEnc *b = ordem->prim, *f = ordem->prim;
 
     // For que faz b apontar para o jogador desejado
     for(; cont < chave_jogador; cont++){
         b = b->prox;
     }
 
-    // Agora que se tem o jogador desejado, c irá percorrer a mao (deque) do jogador
+    // Verifica os montes
     NodoLEnc2 *c = b->info.mao.prim;
+    while(c != NULL && umaJogada == 0){
+        if(b->info.chave != f->info.chave){
+            if(c->info.valor == f->info.monte.topo.info.valor){
+                roubaMonte(b, f, ?)
+            }
+        }
+        c = c->prox; // Muda carta
+        f = f->prox; // Muda jogador
+    }
+
+    // Agora que se tem o jogador desejado, c irá percorrer a mao (deque) do jogador
+    c = b->info.mao.prim; // Para a mao do jogador desejado
     NodoLEnc2 *d = mesa->prim
-    int umaJogada = 0;
     while(c != NULL && umaJogada == 0){
         for(; d != NULL; d = d->prox){
             if(c->info.valor == d->info.valor){ // Se encontrar cartas de mesmo valor entre mão e mesa

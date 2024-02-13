@@ -13,6 +13,7 @@ typedef struct nodoLEnc2{
 
 typedef struct listaEnc2{
    NodoLEnc2 *prim;
+   int tam;
 } ListaEnc2;
 
 ListaEnc2* criaListaEnc2();
@@ -23,6 +24,8 @@ Carta removeCartaListaEnc2(ListaEnc2* lista, int pos);
 
 Carta buscaCartaListaEnc2(ListaEnc2* lista, int pos);
 
-void imprimeListaEnc2(ListaEnc2* lista);
+void imprimeListaEnc2(ListaEnc2* lista, int y);
+
+void imprimeIndicesCarta(ListaEnc2* lista, int y, int cartaSelecionada);
 
 #endif

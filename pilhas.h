@@ -18,7 +18,7 @@ void empilhaCarta(Pilha *pilha, Carta carta);
 
 Carta desempilhaCarta(Pilha *pilha);
 
-void imprimePilha(Pilha *pilha);
+void imprimePilha(Pilha *pilha, int x, int y);
 
 int vaziaPilha(Pilha *pilha);
 

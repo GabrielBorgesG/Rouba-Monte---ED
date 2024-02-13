@@ -1,6 +1,7 @@
 #include "listas.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio2.h>
 
 //------Lista-Duplamente-Encadeada------//
 
@@ -8,6 +9,7 @@ ListaEnc2* criaListaEnc2(){
     ListaEnc2* lista = (ListaEnc2*)malloc(sizeof(ListaEnc2));
     if (lista != NULL) // Idealmente, sempre checar!
         lista->prim = NULL; // Representacao de lista vazia
+    lista->tam = 0;
 
     return lista;
 }
@@ -25,6 +27,7 @@ void insereCartaListaEnc2(ListaEnc2* lista, Carta carta){
    if (lista->prim != NULL)
       lista->prim->ant = novo;
    lista->prim = novo;
+   lista->tam++;
 }
 
 Carta removeCartaListaEnc2(ListaEnc2* lista, int pos){
@@ -45,6 +48,7 @@ Carta removeCartaListaEnc2(ListaEnc2* lista, int pos){
       }
       info = aux->carta;
       free(aux);
+      lista->tam--;
    }
 
    return info;
@@ -58,8 +62,29 @@ Carta buscaCartaListaEnc2(ListaEnc2* lista, int pos){
    return aux->carta;
 }
 
-void imprimeListaEnc2(ListaEnc2* lista){
+void imprimeListaEnc2(ListaEnc2* lista, int y){
     NodoLEnc2* aux;
-    for(aux = lista->prim; aux != NULL; aux = aux->prox)
-        printf("%d%c ", aux->carta.valor, NAIPES[aux->carta.naipe]);
+    int x = (TAMANHO_TELA_X - 7*(lista->tam))/2; // calcula a posição x inicial
+    for(aux = lista->prim; aux != NULL; aux = aux->prox){
+      imprimeCartaJogador(aux->carta, x, y);
+      x += 7; // move para a próxima posição x
+    }
+}
+
+void imprimeIndicesCarta(ListaEnc2* lista, int y, int CartaSelecionada){
+    NodoLEnc2* aux;
+    int i = 1;
+    int x = (TAMANHO_TELA_X - 7*(lista->tam))/2; // calcula a posição x inicial
+    for(aux = lista->prim; aux != NULL; aux = aux->prox){
+      gotoxy(x, y);
+      if(i == CartaSelecionada){
+         textcolor(LIGHTBLUE);
+         printf("  [%d]  ", i);
+         textcolor(WHITE); // Reseta a cor do texto
+      }else{
+         printf("  [%d]  ", i);
+      }
+      i++;
+      x += 7;
+    }
 }

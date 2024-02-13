@@ -1,6 +1,7 @@
 #include "pilhas.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio2.h>
 
 Pilha* criaPilha(){
     Pilha *pilha = (Pilha *) malloc(sizeof(Pilha));
@@ -35,12 +36,16 @@ Carta desempilhaCarta(Pilha* pilha){
    return carta;
 }
 
-void imprimePilha(Pilha *pilha) {
+void imprimePilha(Pilha *pilha, int x, int y) {
     NodoPEnc *aux = pilha->topo; // Ponteiro auxiliar para percorrer a pilha
-    while (aux != NULL) {
-        printf("%d%c ", aux->carta.valor, NAIPES[aux->carta.naipe]);
-        aux = aux->prox; // Avança para o próximo nó
-    }
+    if(aux == NULL){
+        gotoxy(x, y); printf(" -----\n");
+        gotoxy(x, y+1); printf("|\\   /| \n", 'A');
+        gotoxy(x, y+2); printf("|  -  | \n");
+        gotoxy(x, y+3); printf("|/   \\| \n");
+        gotoxy(x, y+4); printf(" -----\n");
+
+    }else imprimeCartaJogador(aux->carta, x, y);
 }
 
 int vaziaPilha(Pilha *pilha){

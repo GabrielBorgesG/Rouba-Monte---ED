@@ -4,7 +4,7 @@
 #include "listas.h"
 #include "pilhas.h"
 
-#define TAMANHO_MESA 8
+#define TAMANHO_MESA 4
 
 typedef ListaEnc2 Mesa;
 

@@ -48,59 +48,57 @@ OrdemJogadas* criaOrdemJogadas(Pilha* baralho, int nJogadores){
    return ordenacao;
 }
 
-int pegaMesa(Jogador* j, ListaEnc2 *mesa, Carta cartaMao){
+int buscaMesa(ListaEnc2 *mesa, Carta cartaMao){
      NodoLEnc2* atualMesa = mesa->prim;
      int posMesa = 1; // Índice da carta na mesa
-     while (atualMesa != NULL) {
-          if (cartaMao.valor == atualMesa->carta.valor) {
-               // Remover carta da mesa
-               Carta cartaMesa = removeCartaListaEnc2(mesa, posMesa);
-               // Adicionar ambas as cartas à pilha do jogador
-               empilhaCarta(j->monte, cartaMesa);
-               empilhaCarta(j->monte, cartaMao);
-               return 1;
-          }
+     while (atualMesa != NULL){
+          if (cartaMao.valor == atualMesa->carta.valor)
+               return posMesa;
           atualMesa = atualMesa->prox;
           posMesa++;
      }
-     return 0;
+     return -1; // Indica que a carta não foi encontrada
 }
 
-void escolheCartaMao(Jogador* j, ListaEnc2 *mesa, int posMao){
-     //Recupera carta da mao pela posicao escolhida
-     Carta cartaMao = removeCartaListaEnc2(j->mao, posMao);
-
-     //Tenta pegar a mesa com a carta escolhida
-     int retorno = pegaMesa(j, mesa, cartaMao);
-
-     //Caso nao consiga, a carta vai para a mesa
-     if(!retorno)
-          insereCartaListaEnc2(mesa, cartaMao);
+void pegaMesa(Jogador* j, ListaEnc2 *mesa, Carta cartaMao, int posMesa){
+     // Remover carta da mesa
+     Carta cartaMesa = removeCartaListaEnc2(mesa, posMesa);
+     // Adicionar ambas as cartas à pilha do jogador
+     empilhaCarta(j->monte, cartaMesa);
+     empilhaCarta(j->monte, cartaMao);
 }
 
-/* void roubaMonte(Jogador *j1, Jogador *j2){
+Jogador* buscaMontes(NodoLEnc* rodada, Carta cartaMao){
+     NodoLEnc* primeiro = rodada;
+          do {
+               rodada = rodada->prox;
+               if(rodada->jogador->monte->topo != NULL){
+                    if(cartaMao.valor == rodada->jogador->monte->topo->carta.valor)
+                         return rodada->jogador;
+               }
+          } while (rodada != primeiro);
+     return NULL;   
+}
 
-     //J1 = jogador ladrao
+void roubaMonte(Jogador *j1, Jogador *j2, Carta cartaMao){
+
      //J2 = jogador roubado
-     if(j1->monte->topo->carta.valor == j2->monte->topo->carta.valor){
-          //Salvando os topos das pilhas
-          Carta cartaj1 = desempilhaCarta(j1->monte);
-          Carta cartaj2 = desempilhaCarta(j2->monte);
-          //Estrutura auxiliar
-          Carta carta;
-          while (!vaziaPilha(j2->monte)){
-               //Retirar a carta do monte do adversário
-               carta = desempilhaCarta(j2->monte);
-               //Adicionar a carta ao próprio monte
-               empilhaCarta(j1->monte, carta);
-          }
-
-          //Colocando os topos novamente
-          empilhaCarta(j1->monte, cartaj1);
-          empilhaCarta(j1->monte, cartaj2);
-
+     //Salvando o topo da pilha
+     Carta cartaj2 = desempilhaCarta(j2->monte);
+     //Estrutura auxiliar
+     Carta carta;
+     while (!vaziaPilha(j2->monte)){
+          //Retirar a carta do monte do adversário
+          carta = desempilhaCarta(j2->monte);
+          //Adicionar a carta ao próprio monte
+          empilhaCarta(j1->monte, carta);
      }
-} */
+
+     //Colocando os topos
+     empilhaCarta(j1->monte, cartaj2);
+     empilhaCarta(j1->monte, cartaMao);
+
+}
 
 void imprimeJogadores(OrdemJogadas* ordenacao){
      NodoLEnc* aux = ordenacao->prim;
@@ -109,9 +107,9 @@ void imprimeJogadores(OrdemJogadas* ordenacao){
           do{
                printf("ID: %d\n", aux->jogador->id);
                printf("Mao: ");
-               imprimeListaEnc2(aux->jogador->mao);
+               imprimeListaEnc2(aux->jogador->mao, 0);
                printf("Monte: ");
-               imprimePilha(aux->jogador->monte);
+               imprimePilha(aux->jogador->monte, 0, 0);
                printf("\n");
                aux = aux->prox;
           }while (aux != ordenacao->prim);

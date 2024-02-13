@@ -16,4 +16,3 @@ Mao* criaMao(Pilha *baralho){
     return mao;
 }
 
-

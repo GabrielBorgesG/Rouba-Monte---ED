@@ -14,6 +14,7 @@ typedef enum {
 
 typedef struct{
     ID id;
+    int pontuacao;
     Pilha* monte;
     Mao* mao;
 } Jogador;
@@ -33,9 +34,15 @@ ListaCircEnc* criaListaCircEnc();
 
 OrdemJogadas* criaOrdemJogadas(Pilha* baralho, int nJogadores);
 
-void escolheCartaMao(Jogador *j, ListaEnc2 *mesa, int posMao);
+int buscaMesa(ListaEnc2* mesa, Carta cartaMao);
 
-//void roubaMonte(Jogador *j1, Jogador *j2);
+void pegaMesa(Jogador* j, ListaEnc2 *mesa, Carta cartaMao, int posMesa);
+
+Jogador* buscaMontes(NodoLEnc* rodada, Carta cartaMao);
+
+void escolheCartaMao(Jogador *j, ListaEnc2 *mesa, Carta cartaMao);
+
+void roubaMonte(Jogador *j1, Jogador *j2, Carta cartaMao);
 
 void imprimeJogadores(OrdemJogadas* ordenacao);
 

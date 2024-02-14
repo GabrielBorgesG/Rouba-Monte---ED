@@ -15,7 +15,7 @@ Pilha* criaPilha(){
     return pilha;
 }
 
-// Função para empilhar uma carta no topo da pilha (baralho)
+// Funcao para empilhar uma carta no topo da pilha (baralho)
 void empilhaCarta(Pilha *pilha, Carta carta) {
     NodoPEnc *novo = (NodoPEnc*)malloc(sizeof(NodoPEnc));
     if (novo == NULL){ // Idealmente, sempre checar!
@@ -27,7 +27,7 @@ void empilhaCarta(Pilha *pilha, Carta carta) {
     pilha->topo = novo;
 }
 
-// Função para desempilhar uma carta do topo da pilha (baralho)
+// Funcao para desempilhar uma carta do topo da pilha (baralho)
 Carta desempilhaCarta(Pilha* pilha){
    NodoPEnc *aux = pilha->topo; 
    Carta carta = aux->carta;
@@ -56,7 +56,7 @@ void destroiPilha(Pilha *pilha){
    NodoPEnc *aux = pilha->topo;
    while(aux != NULL){
        NodoPEnc *tmp = aux->prox;
-       free(aux); // Cuidar ordem do free
+       free(aux);
        aux = tmp;
    }
    free(pilha);

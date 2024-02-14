@@ -28,4 +28,9 @@ void imprimeListaEnc2(ListaEnc2* lista, int y);
 
 void imprimeIndicesCarta(ListaEnc2* lista, int y, int cartaSelecionada);
 
+int valoresIguaisListaEnc2(ListaEnc2* lista);
+
+// Funcao que destroi uma lista
+void destroiListaEnc2(ListaEnc2 *lista);
+
 #endif

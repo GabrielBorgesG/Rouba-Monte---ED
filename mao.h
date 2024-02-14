@@ -10,4 +10,7 @@ typedef ListaEnc2 Mao;
 
 Mao* criaMao(Pilha *baralho);
 
+// Funcao que imprime os indices acima das cartas da mao
+void imprimeIndicesCarta(Mao* mao, int y, int CartaSelecionada);
+
 #endif

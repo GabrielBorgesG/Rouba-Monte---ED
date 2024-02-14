@@ -60,7 +60,10 @@ void creditos(){
     gotoxy(10,8);
     printf("Pedro Bezerra Iatauro");
 
-    gotoxy(10,10);
+    gotoxy(10, 10);
+    printf("Para a disciplina INF01126 - Estruturas De Dados I - Turma U (2023/2) da UFRGS.");
+
+    gotoxy(10,12);
     printf("Pressione qualquer tecla para voltar ao menu.");
 
     getch(); // Aguarda o usuário pressionar uma tecla
@@ -68,7 +71,22 @@ void creditos(){
     menu();
 }
 
-void imprimeJogadoresPC(int nJogadores, NodoLEnc* aux){
+void tutorial(){
+    gotoxy(10,15);
+    printf("Regras:");
+    gotoxy(10, 16);
+    printf("1. Cartas so podem ser empilhadas se possuirem o mesmo valor (naipes nao importam);");
+    gotoxy(10, 17);
+    printf("2. Jogadores podem coletar cartas da mesa ou roubar o monte dos adversários;");
+    gotoxy(10, 18);
+    printf("3. Ganha quem tiver mais cartas ao final do jogo em seu monte.");
+    gotoxy(10,20);
+    printf("Tutorial: Selecione as cartas da sua mao pela sua posicao (de 1 ate 4) e pressione Enter.");
+    gotoxy(10,21);
+    printf("As opcoes possiveis aparecerao posteriormente.");
+}
+
+void imprimeOutrosJogadores(int nJogadores, NodoLEnc* aux){
     aux = aux->prox;
     imprimePilha(aux->jogador->monte, 29, 2);
     gotoxy(29,7); printf("Monte %d", aux->jogador->id);
@@ -98,12 +116,11 @@ void imprimeOpcoesPossiveis(){
 
 void opcoes(int opcaoSelecionada) {
     char *opcoes[] = {"Iniciar Jogo", "Creditos", "Sair"};
-    #define NUMERO_OPCOES 3
 
     gotoxy(10, 12);
     printf("Selecione uma opcao e pressione Enter para confirmar:");
 
-    for (int i = 0; i < NUMERO_OPCOES; i++) {
+    for (int i = 0; i < 3; i++) {
         gotoxy(10, 14 + i);
         if (i == opcaoSelecionada - 1) {
             textcolor(LIGHTBLUE);
@@ -115,20 +132,17 @@ void opcoes(int opcaoSelecionada) {
     }
 }
 
-void jogo(int nJogadores){
+void jogo(int nJogadores, int singleMulti){
     Pilha* baralho;
     OrdemJogadas* ordenacao;
     Mesa* mesa;
     NodoLEnc* rodada;
-    NodoLEnc* aux;
     Carta cartaMao;
     Jogador* roubavel;
-    int posMao;
     int posMesa;
-    int cartaSelecionada = 0;
+    int cartaSelecionada;
     int cartasBaralho = TAMANHO_BARALHO;
     char indiceCarta;
-    char str[3];
     char opcao;
 
     baralho = criaBaralho();
@@ -152,19 +166,18 @@ void jogo(int nJogadores){
         imprimeListaEnc2(rodada->jogador->mao, 24);
         gotoxy(84,23); printf("Seu monte");
         imprimePilha(rodada->jogador->monte, 85, 24);
-        imprimeJogadoresPC(nJogadores, rodada);
+        imprimeOutrosJogadores(nJogadores, rodada);
+        cartaSelecionada = 0;
         imprimeIndicesCarta(rodada->jogador->mao, 23, cartaSelecionada);
-        indiceCarta = getch(); // Lê uma tecla pressionada pelo usuário
         int indiceCartaInt = indiceCarta - '0';
-        // Loop para navegação
-        while (indiceCarta != '\r') { // Enquanto o jogador não pressionar Enter
+        do {
             if(indiceCartaInt >= 1 && indiceCartaInt <= rodada->jogador->mao->tam){
                 cartaSelecionada = indiceCartaInt;
                 imprimeIndicesCarta(rodada->jogador->mao, 23, cartaSelecionada);
             }
             indiceCarta = getch(); // Lê a próxima tecla pressionada pelo usuário
             indiceCartaInt = indiceCarta - '0';
-        }
+        } while (indiceCarta != '\r' || cartaSelecionada == 0);
 
         // Agora o jogador pressionou Enter, então prosseguimos com a seleção
         imprimeOpcoesPossiveis();
@@ -173,6 +186,7 @@ void jogo(int nJogadores){
         while(opcao != 'R' && opcao != 'P' && opcao != 'D' && opcao != 'r' && opcao != 'p' && opcao != 'd'){
             opcao = getch();
         }
+
         cartaMao = removeCartaListaEnc2(rodada->jogador->mao, cartaSelecionada);
         int retorno = 0;
         while(retorno == 0){
@@ -214,8 +228,42 @@ void jogo(int nJogadores){
             cartasBaralho -= TAMANHO_MAO;
         }
 
-        rodada = rodada->prox;   
+        rodada = rodada->prox;
 
+/*         if(singleMulti == 1){
+                int posMao;
+                NodoLEnc2* cartaMao = rodada->jogador->mao->prim;
+            do{
+                for(cartaMao; cartaMao != NULL; cartaMao = cartaMao->prox){
+                    roubavel = buscaMontes(rodada, cartaMao->carta);
+                    if(roubavel != NULL)
+                        roubaMonte(rodada->jogador, roubavel, cartaMao->carta);
+                }if(roubavel == NULL){
+                    for(cartaMao; cartaMao != NULL; cartaMao = cartaMao->prox){
+                        posMesa = buscaMesa(mesa, cartaMao->carta);
+                        if(posMesa != -1)
+                            pegaMesa(rodada->jogador, mesa, cartaMao->carta, posMesa);
+                    }
+                }else{
+                    posMao = valoresIguaisListaEnc2(rodada->jogador->mao);
+                        if(posMao != 0)
+                            removeCartaListaEnc2(rodada->jogador->mao, posMao);
+                        else removeCartaListaEnc2(rodada->jogador->mao, 1);
+                }
+                rodada = rodada->prox;
+
+                if(mesa->prim == NULL && !vaziaPilha(baralho)){
+                    mesa = criaMesa(baralho);
+                    cartasBaralho -= TAMANHO_MESA;
+                }
+
+                if(rodada->jogador->mao->prim == NULL && !vaziaPilha(baralho)){
+                    rodada->jogador->mao = criaMao(baralho);
+                    cartasBaralho -= TAMANHO_MAO;
+                }
+
+            }while(rodada != ordenacao->prim);
+        } */
     }
 
     clrscr();
@@ -267,10 +315,14 @@ void jogo(int nJogadores){
 
     // Imprime as pontuações e os jogadores em ordem
     gotoxy((TAMANHO_TELA_X - 10)/2, 14); printf("Ranking:");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < nJogadores; i++) {
         gotoxy((TAMANHO_TELA_X - 25)/2, 15 + i);
         printf("Jogador %d | Pontuacao: %d\n", ranking[i].jogador->id, ranking[i].pontuacao);
     }
+
+    destroiPilha(baralho);
+    destroiListaEnc2(mesa);
+    destroiOrdemJogadas(ordenacao);
 
     gotoxy(10,25);
     printf("Pressione qualquer tecla para ir aos creditos.");
@@ -283,6 +335,7 @@ void menu(){
     int opcaoSelecionada = 0;
     char tecla;
     int nJogadores;
+    int singleMulti;
 
     while(1){
         clrscr();
@@ -302,25 +355,22 @@ void menu(){
                     do{
                         clrscr();
                         titulo();
+                        tutorial();
                         gotoxy(10, 12);
-                        printf("Quer jogar contra quantos jogadores? (Maximo 3 | Minimo 1)");
-                        gotoxy(10,15);
-                        printf("Regras:");
-                        gotoxy(10, 16);
-                        printf("1. Cartas so podem ser empilhadas se possuirem o mesmo valor (naipes nao importam);");
-                        gotoxy(10, 17);
-                        printf("2. Pode se pegar cartas tanto da mesa quanto roubar montes de outros jogadores;");
-                        gotoxy(10, 18);
-                        printf("3. Ganha quem tiver mais cartas ao final do jogo.");
-                        gotoxy(10,20);
-                        printf("Tutorial: Selecione as cartas da sua mao pela sua posicao (de 1 ate 4) e pressione Enter.");
-                        gotoxy(10,21);
-                        printf("As opcoes possiveis aparecerao posteriormente");
+                        printf("Pressione 1 para Singleplayer e 2 para Multiplayer");
                         gotoxy(10, 13);
-                        scanf("%d", &nJogadores);
-                    }while(nJogadores > 3 || nJogadores < 1);
-                    nJogadores++;
-                    jogo(nJogadores);
+                        while (scanf("%d", &singleMulti) != 1) while (getchar() != '\n');
+                    }while(singleMulti > 2 || singleMulti < 1);
+                    do{
+                        clrscr();
+                        titulo();
+                        tutorial();
+                        gotoxy(10, 12);
+                        printf("Quantos jogadores? (Maximo 4 | Minimo 2)");
+                        gotoxy(10, 13);
+                        while (scanf("%d", &nJogadores) != 1) while (getchar() != '\n');
+                    }while(nJogadores > 4 || nJogadores < 2);
+                    jogo(nJogadores, singleMulti);
                 case 2:
                     // Creditos
                     creditos();
@@ -329,8 +379,6 @@ void menu(){
                     return;
             }
         }
-
-
     }
 }
 

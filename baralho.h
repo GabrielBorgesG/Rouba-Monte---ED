@@ -5,6 +5,7 @@
 
 Pilha* criaBaralho();
 
+// Embaralha o baralho de cartas na pilha fornecida
 void embaralhaBaralho(Pilha *baralho);
 
 #endif

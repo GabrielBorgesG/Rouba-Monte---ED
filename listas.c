@@ -71,20 +71,39 @@ void imprimeListaEnc2(ListaEnc2* lista, int y){
     }
 }
 
-void imprimeIndicesCarta(ListaEnc2* lista, int y, int CartaSelecionada){
-    NodoLEnc2* aux;
-    int i = 1;
-    int x = (TAMANHO_TELA_X - 7*(lista->tam))/2; // calcula a posição x inicial
-    for(aux = lista->prim; aux != NULL; aux = aux->prox){
-      gotoxy(x, y);
-      if(i == CartaSelecionada){
-         textcolor(LIGHTBLUE);
-         printf("  [%d]  ", i);
-         textcolor(WHITE); // Reseta a cor do texto
-      }else{
-         printf("  [%d]  ", i);
-      }
-      i++;
-      x += 7;
+//Funcao que verifica se ha duas cartas de valores iguais em uma lista
+int valoresIguaisListaEnc2(ListaEnc2* mao) {
+    NodoLEnc2* aux1, *aux2;
+    aux1 = mao->prim;
+    int posMao = 1;
+
+    // Percorre a lista com aux1
+    while (aux1 != NULL && aux1->prox != NULL) {
+        aux2 = aux1->prox;
+        posMao++;
+
+        // Para cada aux1, percorre o restante da lista com aux2
+        while (aux2 != NULL) {
+            // Se encontrar um valor igual, retorna 1
+            if (aux1->carta.valor == aux2->carta.valor) {
+                return posMao;
+            }
+            aux2 = aux2->prox;
+        }
+        aux1 = aux1->prox;
     }
+
+    // Se não encontrar nenhum valor igual, retorna 0
+    return 0;
+}
+
+// Funcao que destroi uma lista
+void destroiListaEnc2(ListaEnc2 *lista){
+   NodoLEnc2 *aux = lista->prim;
+   while(aux != NULL){
+       NodoLEnc2 *tmp = aux->prox;
+       free(aux); // Cuidar ordem do free
+       aux = tmp;
+   }
+   free(lista);
 }

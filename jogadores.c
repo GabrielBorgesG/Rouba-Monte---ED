@@ -100,19 +100,26 @@ void roubaMonte(Jogador *j1, Jogador *j2, Carta cartaMao){
 
 }
 
-void imprimeJogadores(OrdemJogadas* ordenacao){
-     NodoLEnc* aux = ordenacao->prim;
-     printf("-------------------------------\n");
-     if(ordenacao->prim != NULL){
-          do{
-               printf("ID: %d\n", aux->jogador->id);
-               printf("Mao: ");
-               imprimeListaEnc2(aux->jogador->mao, 0);
-               printf("Monte: ");
-               imprimePilha(aux->jogador->monte, 0, 0);
-               printf("\n");
-               aux = aux->prox;
-          }while (aux != ordenacao->prim);
+void destroiOrdemJogadas(OrdemJogadas* ordenacao){
+     if (ordenacao->prim != NULL) {
+          NodoLEnc* atual = ordenacao->prim;
+          NodoLEnc* inicio = atual;
+          NodoLEnc* proximo;
+
+          do {
+               proximo = atual->prox;
+               // Destruir a pilha do jogador
+               destroiPilha(atual->jogador->monte);
+               // Destruir a mao do jogador
+               destroiListaEnc2(atual->jogador->mao);
+               // Desalocar memória do jogador
+               free(atual->jogador);
+               // Desalocar memória do nodo
+               free(atual);
+               atual = proximo;
+          } while (atual != inicio);
      }
-     printf("-------------------------------\n");
+     // Desalocar memória da estrutura OrdemJogadas
+     free(ordenacao);
 }
+

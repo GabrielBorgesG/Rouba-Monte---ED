@@ -10,6 +10,4 @@ typedef ListaEnc2 Mesa;
 
 Mesa* criaMesa(Pilha *baralho);
 
-void imprimeMesa(Mesa* mesa);
-
 #endif

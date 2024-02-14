@@ -386,21 +386,25 @@ void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
     // Agora que se tem o jogador desejado, c irá percorrer a mao (deque) do jogador
     c = b->jogador->mao->prim; // Para a mao do jogador desejado
     NodoLEnc2 *d = mesa->prim;
+    int pos1 = 0, pos2;
     while(c != NULL && umaJogada == 0){
+        pos2 = 0;
         for(; d != NULL; d = d->prox){
             if(c->carta.valor == d->carta.valor){ // Se encontrar cartas de mesmo valor entre mão e mesa
 
                 // Coloca na pilha do jogador
-                empilhaPilhaEnc(b->jogador->monte, c->carta);
-                empilhaPilhaEnc(b->jogador->monte, d->carta);
+                empilhaCarta(b->jogador->monte, pos1); // A carta da mão vai para o monte
+                empilhaCarta(b->jogador->monte, pos2); // A carta da mesa vai para o monte
 
                 // Remove da mesa e da mão
-                removeInfoListaEnc2(b->jogador->mao, c->carta.valor);
-                removeInfoListaEnc2(mesa, d->carta.valor);
+                removeCartaListaEnc2(b->jogador->mao, pos1); // A carta sai da mão
+                removeCartaListaEnc2(mesa, pos2); // A carta sai da mesa
                 umaJogada = 1;
             }
+            pos2++;
         }
         c = c->prox;
+        pos1++;
         d = mesa->prim;
     }
 

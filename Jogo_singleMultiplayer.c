@@ -412,18 +412,11 @@ void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
 }
 
 void jogo_singleplayer(ListaCircEnc *ordem, ListaEnc2 *mesa, int nJogadores){
-
-    int i;
-
-//RODADA        
-        NodoLEnc2 *cartas_mesa = mesa->prim;
-        NodoLEnc2 *cartas_mao = ordem->prim->jogador->mao->prim; // Pega a mão do primeiro jogador (chave  = 0), que no caso é o usuário
-        NodoLEnc *players = ordem->prim->prox;
-        
-        // Faz as jogadas dos demais jogadores
-        for(i = 1; i < nJogadores; i++){
-            rodada(ordem, mesa, i);
-        }
+    int i;    
+    // Faz as jogadas dos demais jogadores
+    for(i = 1; i < nJogadores; i++){
+        rodada(ordem, mesa, i);
+    }
 }
 
 int main() {

@@ -393,8 +393,8 @@ void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
             if(c->carta.valor == d->carta.valor){ // Se encontrar cartas de mesmo valor entre mão e mesa
 
                 // Coloca na pilha do jogador
-                empilhaCarta(b->jogador->monte, pos1); // A carta da mão vai para o monte
-                empilhaCarta(b->jogador->monte, pos2); // A carta da mesa vai para o monte
+                empilhaCarta(b->jogador->monte, c->carta); // A carta da mão vai para o monte
+                empilhaCarta(b->jogador->monte, d->carta); // A carta da mesa vai para o monte
 
                 // Remove da mesa e da mão
                 removeCartaListaEnc2(b->jogador->mao, pos1); // A carta sai da mão
@@ -410,7 +410,7 @@ void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
 
     // Se não houver carta, o jogador joga uma para a mesa
     if(umaJogada == 0){
-        insereInicioListaEnc2(mesa, b->jogador->mao->prim);
+        insereInicioListaEnc2(mesa, b->jogador->mao->prim->carta);
         removeInfoListaEnc2(b->jogador->mao, 0); // O computador descarta a primeira carta da mão
     }
 }

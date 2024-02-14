@@ -411,7 +411,7 @@ void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
     // Se não houver carta, o jogador joga uma para a mesa
     if(umaJogada == 0){
         insereInicioListaEnc2(mesa, b->jogador->mao->prim);
-        removeInfoListaEnc2(b->jogador->mao, b->jogador->mao->prim->carta.valor);
+        removeInfoListaEnc2(b->jogador->mao, 0); // O computador descarta a primeira carta da mão
     }
 }
 

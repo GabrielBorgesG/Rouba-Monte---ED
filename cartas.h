@@ -1,11 +1,19 @@
 #ifndef _CARTAS_H_
 #define _CARTAS_H_
 
+#define TAMANHO_BARALHO 52
+#define NAIPES "CEOP"
+
+//CONSTANTES TELA DO CONSOLE//
+#define TAMANHO_TELA_X 120
+#define TAMANHO_TELA_Y 30
+/////////////////////////////
+
 typedef enum {
-    C,  //=0
-    E,  //=1
-    O,  //=2
-    P  //=3
+    C,  // Copas
+    E,  // Espadas
+    O,  // Ouro
+    P  //  Paus
 } Naipe;
 
 typedef enum {
@@ -25,36 +33,11 @@ typedef enum {
 } Valor;
 
 typedef struct carta{
-    Valor valor;
     Naipe naipe;
-    struct carta *prox;
+    Valor valor;
 } Carta;
 
-typedef Carta Info;
-
-typedef struct nodoLEnc{
-   Info info;
-   struct nodoLEnc *prox;
-} NodoLEnc;
-
-typedef struct pilha{
-   NodoLEnc *topo;
-} Pilha;
-
-Pilha* criaBaralho();
-
-void empilhaCarta(Pilha *monte, Info info);
-
-int vaziaPilha(Pilha *pilha);
-
-Info desempilhaCarta(Pilha *monte);
-
-void swap(Carta *a, Carta *b);
-
-void embaralhaCartas(Carta baralho[], int totalCartas);
-
-void criarBaralhoEstatico(Carta baralho[52]);
-
-void imprimeBaralho(Pilha *baralho);
+// Imprime na tela uma carta
+void imprimeCartaJogador(Carta carta, int x, int y);
 
 #endif

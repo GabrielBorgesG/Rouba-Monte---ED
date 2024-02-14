@@ -1,8 +1,4 @@
-gcc -c lista_circ.c
-gcc -c pilha_enc.c
-gcc -c Rouba_monte.c
-gcc -c lista_enc_dupla.c
+gcc .\cartas.h .\pilhas.h .\pilhas.c .\listas.h .\listas.c .\baralho.h .\baralho.c .\mao.h .\mao.c .\mesa.h .\mesa.c .\jogadores.h .\jogadores.c .\RoubaMonte.c .\cartas.c -lconio -o RoubaMonte.exe
 
-gcc pilha_enc.o lista_enc_dupla.o lista_circ.o Rouba_monte.o programa.o -o jogo.exe
+.\RoubaMonte.exe
 
-.\jogo.exe

@@ -386,9 +386,9 @@ void rodada(ListaCircEnc* ordem, ListaEnc2 *mesa, int chave_jogador){
     // Agora que se tem o jogador desejado, c irá percorrer a mao (deque) do jogador
     c = b->jogador->mao->prim; // Para a mao do jogador desejado
     NodoLEnc2 *d = mesa->prim;
-    int pos1 = 0, pos2;
+    int pos1 = 1, pos2; //Posição começa como 1
     while(c != NULL && umaJogada == 0){
-        pos2 = 0;
+        pos2 = 1; //Posição começa como 1
         for(; d != NULL; d = d->prox){
             if(c->carta.valor == d->carta.valor){ // Se encontrar cartas de mesmo valor entre mão e mesa
 
